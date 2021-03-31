@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:komikin/backend/auth.dart';
 import 'package:komikin/home.dart';
+import 'package:komikin/home_page.dart';
+
 import 'constants.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -8,7 +13,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String email, password;
+  String email;
+  String password;
+
+  final formkey = GlobalKey<FormState>();
+
+  final AuthService _auth = AuthService();
+
   Widget _buildLogo() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -30,10 +41,17 @@ class _HomePageState extends State<HomePage> {
       padding: EdgeInsets.all(9),
       child: TextFormField(
         keyboardType: TextInputType.emailAddress,
-        onChanged: (value) {
-          setState(() {
-            email = value;
-          });
+        validator: (val) {
+          if (val.isEmpty) {
+            return "Kosong Goblok";
+          }
+          if (val.length < 2) {
+            return "Kurang Goblok";
+          } else
+            return null;
+        },
+        onChanged: (val) {
+          email = val;
         },
         decoration: InputDecoration(
             prefixIcon: Icon(
@@ -51,10 +69,12 @@ class _HomePageState extends State<HomePage> {
       child: TextFormField(
         keyboardType: TextInputType.text,
         obscureText: true,
-        onChanged: (value) {
-          setState(() {
-            password = value;
-          });
+        validator: MultiValidator([
+          RequiredValidator(errorText: "This Field Is Required."),
+          MinLengthValidator(6, errorText: "Minimum 6 Characters Required.")
+        ]),
+        onChanged: (val) {
+          password = val;
         },
         decoration: InputDecoration(
           prefixIcon: Icon(
@@ -138,7 +158,9 @@ class _HomePageState extends State<HomePage> {
             color: mainColor,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30.0)),
-            onPressed: () {},
+            onPressed: () {
+              registerEmailPass();
+            },
             child: Text(
               "Signup",
               style: TextStyle(
@@ -227,5 +249,20 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  void registerEmailPass() async {
+    if (formkey.currentState.validate()) {
+      formkey.currentState.save();
+      _auth.signUp(email.trim(), password, context).then((value) {
+        if (value != null) {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomeKu(),
+              ));
+        }
+      });
+    }
   }
 }
