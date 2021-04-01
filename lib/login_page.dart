@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:komikin/backend/auth.dart';
-import 'package:komikin/login_page.dart';
-
+import 'package:komikin/home_page.dart';
 import 'constants.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
-class HomePage extends StatefulWidget {
+class Login extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _LoginState createState() => _LoginState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _LoginState extends State<Login> {
   String email;
   String password;
 
@@ -131,10 +130,10 @@ class _HomePageState extends State<HomePage> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30.0)),
             onPressed: () {
-              registerEmailPass();
+              signInUser();
             },
             child: Text(
-              "Signup",
+              "Login",
               style: TextStyle(
                 color: Colors.white,
                 letterSpacing: 1.5,
@@ -161,15 +160,9 @@ class _HomePageState extends State<HomePage> {
             color: mainColor,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30.0)),
-            onPressed: () {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Login(),
-                  ));
-            },
+            onPressed: () {},
             child: Text(
-              "Login",
+              "Signup",
               style: TextStyle(
                 color: Colors.white,
                 letterSpacing: 1.5,
@@ -210,47 +203,47 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildContainer() {
-    return Form(
-      key: formkey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.all(
-              Radius.circular(20),
-            ),
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.7,
-              width: MediaQuery.of(context).size.width * 0.8,
-              decoration: BoxDecoration(
-                color: Colors.white,
+    return SingleChildScrollView(
+      child: Form(
+        key: formkey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ClipRRect(
+              borderRadius: BorderRadius.all(
+                Radius.circular(20),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "Signup",
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.height / 30,
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.7,
+                width: MediaQuery.of(context).size.width * 0.8,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          "Login",
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.height / 30,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  _buildEmailRow(),
-                  _buildPasswordRow(),
-                  _buildForgetPasswordButton(),
-                  _buildLoginButton(),
-                  _buildOrRow(),
-                  _buildSignupButton(),
-                ],
+                      ],
+                    ),
+                    _buildEmailRow(),
+                    _buildPasswordRow(),
+                    _buildForgetPasswordButton(),
+                    _buildLoginButton(),
+                  ],
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -288,15 +281,15 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void registerEmailPass() async {
+  void signInUser() {
     if (formkey.currentState.validate()) {
       formkey.currentState.save();
-      _auth.signUp(email.trim(), password, context).then((value) {
+      _auth.signin(email, password, context).then((value) {
         if (value != null) {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => Login(),
+                builder: (context) => HomeKu(),
               ));
         }
       });

@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class AuthService {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -14,6 +12,7 @@ class AuthService {
         title: Text("Error"),
         content: Text(err),
         actions: <Widget>[
+          // ignore: deprecated_member_use
           OutlineButton(
             onPressed: () {
               Navigator.pop(context);
@@ -52,17 +51,6 @@ class AuthService {
     }
   }
 
-  // Future registerEmailPass(String email, String password) async {
-  //   try {
-  //     UserCredential result = await auth.createUserWithEmailAndPassword(
-  //         email: email, password: password);
-  //     User user = result.user;
-  //     return user;
-  //   } on FirebaseAuthException catch (e) {
-  //     return e.message;
-  //   }
-  // }
-
   //SignIn
 
   Future<User> signin(
@@ -99,15 +87,6 @@ class AuthService {
       return Future.value(null);
     }
   }
-  // Future<User> newLogin(String email, String password) async {
-  //   try {
-  //     UserCredential result = await _auth.signInWithEmailAndPassword(
-  //         email: email, password: password);
-  //     return result.user;
-  //   } on FirebaseAuthException catch (e) {
-  //     return e.toString();
-  //   }
-  // }
 
   //SignOut
 
