@@ -33,6 +33,10 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   
+  curved_navigation_bar: ^0.3.7
+  dio: ^4.0.0
+  font_awesome_flutter: ^9.0.0
+  carousel_slider: ^3.0.0
   firebase_core: ^1.0.2
   firebase_analytics: ^7.1.1
   firebase_auth: ^1.0.1

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:komikin/backend/auth.dart';
 import 'package:komikin/home_page.dart';
+import 'package:komikin/page/homepage.dart';
 import 'constants.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
@@ -289,7 +290,7 @@ class _LoginState extends State<Login> {
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => HomeKu(),
+                builder: (context) => HomePage(),
               ));
         }
       });
