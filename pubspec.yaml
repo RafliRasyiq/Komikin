@@ -33,6 +33,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   
+  transparent_image: ^2.0.0
+  flutter_svg: ^0.19.3
   curved_navigation_bar: ^0.3.7
   dio: ^4.0.0
   font_awesome_flutter: ^9.0.0
